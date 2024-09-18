@@ -1,1 +1,287 @@
-# mypurecloud.github.io
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Dashboard - Profiles Administration</title>
+    <link href="css/styles.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <script type="text/javascript"
+    src="https://sdk-cdn.mypurecloud.com/javascript/latest/purecloud-platform-client-v2.min.js"></script>
+</head>
+<body class="sb-nav-fixed">
+    <script src="js/jquery-3.7.0.js"></script>
+    <script src="js/jquery.dataTables.min.js"></script>
+    <link href="css/jquery.dataTables.min.css" rel="stylesheet" />
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <!-- Navbar Brand-->
+        <a class="navbar-brand ps-3" href="index.html">&nbsp;</a>
+        <!-- Sidebar Toggle-->
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+            <div class="input-group">&nbsp;</div>
+        </form>
+       
+    </nav>
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
+                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Groups
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapsed" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                                <div class="dropdown">
+                                    <div class="dropdown-content" id="divisionsList" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            </nav>
+                                    </div>
+                                </div>
+                                </nav>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Logged in as:</div>
+                        <div class ="small" id="LoggedInAs"></div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Agents Administration Dashboard</h1>
+                        <div id="BulkUpdateTitle"></div>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-primary text-white mb-4">
+                                    <div class="card-body" id="PrimaryProfileCard"></div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="javascript:window.location.reload(true)">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-warning text-white mb-4">
+                                    <div class="card-body" id="BackupProfileCard"></div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="javascript:window.location.reload(true)">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-righ"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-success text-white mb-4">
+                                    <div class="card-body" id="DefaultProfileCard"></div>                                    
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="javascript:window.location.reload(true)">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card bg-danger text-white mb-4">
+                                    <div class="card-body" id="EmergencyProfileCard"></div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between">
+                                        <a class="small text-white stretched-link" href="javascript:window.location.reload(true)">View Details</a>
+                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xl-6">
+                                <div class="card mb-4">     
+                                   <div class="card mb-4">
+                                    <div class="card-header">
+                                        <table>
+                                            <tr>
+                                                <td style="width:95%">
+                                                    <div id="profileSkillsTxt"></div>
+                                                </td>
+                                                </tr></table>
+                                    </div>
+
+                                    <div class="card-body">                                    
+                                                <table class="row-border hover" id="DTBulkSkillsProfile_DOM">
+                                                    <thead>
+                                                        <tr><th>Name</th>
+                                                        <th><form><div class="form-check form-switch"></div><input class="form-check-input" id="Sel_All" type="checkbox" onclick="toggle_star(this)" /><label for="Sel_All" class="form-check-label">&nbsp;&nbsp;Sel.</label></th>
+                                                        <th>Proficiency</th>
+                                                        <th>Change</th>                                                        
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                    <tfoot><tr><th>Name</th><th>Sel.</th><th>Proficiency</th><th>Change</th></tr></tfoot>
+                                                </table>
+                                    </div>
+</div>
+</div>
+</div>
+
+<div class="col-xl-6"> <div class="card mb-4"><div class="card mb-4">
+    <div class="card-header">
+        <table style="width:100%"><tr><td style="width:85%">
+            <i class="fas fa-table me-1"></i>
+        Users List</td><td style="align-content: right;">
+            &nbsp;
+        </td>
+        <td style="width:5%"> <button type="button" class="btn btn-outline-primary" id="BTNSaveProfile">Save</button></td>
+        <td style="width:10%"> <button type="button" class="btn btn-outline-primary" id="BTNApplyProfile"><i class='fas fa-table me-1'></i>Apply</button></td></tr>
+    </table>
+</div>
+<div class="card-body">
+    <table class="row-border hover" id="DTAllAgentsBulk">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th width="15%"><form><div class="checkbox select-all"><input id="all" type="checkbox" onclick="toggle_chk(this)" /><label for="all">&nbsp;&nbsp;Sel.</label></div></th>
+                <th>Division</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th><label for="all">&nbsp;&nbsp;Sel.</label></div></th>
+                <th>Division</th>
+            </tr>
+        </tfoot>
+        <tbody>
+    </tbody>                          
+</table>
+</div>
+
+</div></div>
+</div>
+
+</div>
+</main>
+<footer class="py-4 bg-light mt-auto">
+    <div class="container-fluid px-4">
+        <div class="d-flex align-items-center justify-content-between small">
+            <div class="text-muted">Copyright &copy; Your Website 2024</div>
+            <div>
+                <a href="#">Privacy Policy</a>
+                &middot;
+                <a href="#">Terms &amp; Conditions</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+<script src="js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="js/scripts.js"></script>
+<script src="js/NewClientImplicitGrant.js" async defer></script>
+<script src="js/changProfileGlobalImport.js"></script><!--ADDITION-->
+<script src="js/LoginGetIndexObjects.js" async defer></script>
+<script src="js/GetSkillsTable.js" async defer></script>
+
+<script type="text/javascript">
+    
+    document.addEventListener( "DOMContentLoaded", functionCall());
+
+        function GetURLParameter(sParam)
+            {
+                var sPageURL = window.location.search.substring(1);
+                var sURLVariables = sPageURL.split('&');
+                for (var i = 0; i < sURLVariables.length; i++) 
+                {
+                    var sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] == sParam) 
+                    {
+                        return sParameterName[1];
+                    }
+                }
+            }
+        
+        function functionCall() {
+            let profileName = "";
+            let sTitle = document.getElementById("BulkUpdateTitle");
+            profileName = GetURLParameter("profile");
+            groupName = GetURLParameter("group_name");
+            let sclass = "";
+
+            // Put the open book on the selected Profile Card
+            let cardPrimary = document.getElementById("PrimaryProfileCard");
+            let cardBackup = document.getElementById("BackupProfileCard");
+            let cardDefault = document.getElementById("DefaultProfileCard");
+            let cardEmergency = document.getElementById("EmergencyProfileCard");
+
+            // Profile Skills Text div content
+            let divprofileSkills = document.getElementById("profileSkillsTxt");
+
+            
+        if ((profileName == "") || (profileName == undefined )){
+            profileName="primary";
+            profileName = profileName.toUpperCase();
+        } else {
+            
+            profileName = profileName.toUpperCase();
+        }
+
+        //alert(profileName);
+        divprofileSkills.innerHTML += "<i class='fas fa-table me-1'></i>" + (profileName.substring(0, 1)).toUpperCase() + profileName.substring(1).toLowerCase() + " Utilization";
+        
+                    switch (profileName){
+                        case "PRIMARY":
+                            sclass ="card bg-primary text-white mb-4";
+                            cardPrimary.innerHTML   += `<i class="fas fa-book-open"></i>&nbsp;Primary Profile`;
+                            cardBackup.innerHTML    += `Backup Profile`;
+                            cardDefault.innerHTML   += `Default Profile`;
+                            cardEmergency.innerHTML += `Emergency Profile`;
+                            break;
+                        case "BACKUP":
+                            sclass ="card bg-warning text-white mb-4";
+                            cardPrimary.innerHTML   += `Primary Profile`;
+                            cardBackup.innerHTML    += `<i class="fas fa-book-open"></i>&nbsp;Backup Profile`;
+                            cardDefault.innerHTML   += `Default Profile`;
+                            cardEmergency.innerHTML += `Emergency Profile`;
+                            break;
+                        case "DEFAULT":
+                            sclass="card bg-success text-white mb-4";
+                            cardPrimary.innerHTML   += `Primary Profile`;
+                            cardBackup.innerHTML    += `Backup Profile`;
+                            cardDefault.innerHTML   += `<i class="fas fa-book-open"></i>&nbsp;Default Profile`;
+                            cardEmergency.innerHTML += `Emergency Profile`;
+                            break;
+                        case "EMERGENCY":
+                            sclass="card bg-danger text-white mb-4";
+                            cardPrimary.innerHTML   += `Primary Profile`;
+                            cardBackup.innerHTML    += `Backup Profile`;
+                            cardDefault.innerHTML   += `Default Profile`;
+                            cardEmergency.innerHTML += `<i class="fas fa-book-open"></i>&nbsp;Emergency Profile`;
+                            break;
+                        default:
+                            sclass ="card bg-primary text-white mb-4";
+                            cardPrimary.innerHTML   += `<i class="fas fa-book-open"></i>&nbsp;Primary Profile`;
+                            cardBackup.innerHTML    += `Backup Profile`;
+                            cardDefault.innerHTML   += `Default Profile`;
+                            cardEmergency.innerHTML += `Emergency Profile`;
+                            break;  
+            }
+                
+        // Agent was not selected, this is for the Bulk Action!
+        // Add the current profile to the Session Storage
+        window.sessionStorage.setItem("currentAgentId","");
+        window.sessionStorage.setItem("currentAgentName","");
+        window.sessionStorage.setItem("currentProfile",profileName);
+        window.sessionStorage.setItem("bulkUpdate","true");
+        window.sessionStorage.setItem("agentScope","false");
+        window.sessionStorage.setItem("blkIndex","0"); 
+        sTitle.innerHTML = `<div class="${sclass}">Bulk Update Utilization for Group: `+decodeURIComponent(GetURLParameter("group_name"))+`</div>`;
+        }
+ </script>
+</body>
+</html>

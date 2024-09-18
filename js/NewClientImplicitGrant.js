@@ -11,7 +11,7 @@ client.setPersistSettings(true, "profileTool");
 client.setEnvironment("mypurecloud.ie");
 
 client
-  .loginImplicitGrant(clientID, "http://127.0.0.1:5500/index.html")
+  .loginImplicitGrant(clientID, "https://ralucaradu08.github.io/mypurecloud.github.io/index.html")
   .then((data) => {
     const token = data.accessToken;
     client.setAccessToken(token);
